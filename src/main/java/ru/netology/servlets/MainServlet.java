@@ -4,6 +4,8 @@ import ru.netology.servlets.controller.PostController;
 import ru.netology.servlets.exception.PostNotFoundException;
 import ru.netology.servlets.repository.PostRepository;
 import ru.netology.servlets.service.PostService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.google.gson.JsonParseException;
 
@@ -20,16 +22,16 @@ public class MainServlet extends HttpServlet {
     private static final String POST_ID_PREFIX = "/posts/";
 
     private PostController controller;
+    private ApplicationContext context;
 
     // Инициализация приложения
     @Override
     public void init() throws ServletException {
+        // Передаём класс конфигурации. Spring прочитает методы с @Bean и создаст объекты
+        context = new AnnotationConfigApplicationContext(AppConfig.class);
 
-        PostRepository repository = new PostRepository();
-
-        PostService service = new PostService(repository);
-
-        controller = new PostController(service);
+        // Просим контейнер отдать нам готовый контроллер
+        controller = context.getBean(PostController.class);
     }
 
     // Диспетчеризация запросов
