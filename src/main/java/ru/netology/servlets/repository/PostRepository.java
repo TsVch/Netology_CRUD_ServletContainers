@@ -2,13 +2,14 @@ package ru.netology.servlets.repository;
 
 import ru.netology.servlets.exception.PostNotFoundException;
 import ru.netology.servlets.model.Post;
-
+import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Repository
 public class PostRepository {
 
     private final Map<Long, Post> posts = new LinkedHashMap<>();

@@ -4,7 +4,8 @@ import ru.netology.servlets.controller.PostController;
 import ru.netology.servlets.exception.PostNotFoundException;
 import ru.netology.servlets.repository.PostRepository;
 import ru.netology.servlets.service.PostService;
-
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import com.google.gson.JsonParseException;
 
 import javax.servlet.ServletException;
@@ -20,16 +21,17 @@ public class MainServlet extends HttpServlet {
     private static final String POST_ID_PREFIX = "/posts/";
 
     private PostController controller;
-
+    private ApplicationContext context;
     // Инициализация приложения
     @Override
     public void init() throws ServletException {
+        // 1. Запускаем Spring-контейнер и говорим ему искать аннотации
+        // в пакете ru.netology.servlets и всех вложенных папках
+        context = new AnnotationConfigApplicationContext("ru.netology.servlets");
 
-        PostRepository repository = new PostRepository();
-
-        PostService service = new PostService(repository);
-
-        controller = new PostController(service);
+        // 2. Просим контейнер дать нам готовый, полностью собранный контроллер.
+        // Spring сам создаст Service, передаст в него Repository, и всё это передаст в Controller.
+        controller = context.getBean(PostController.class);
     }
 
     // Диспетчеризация запросов

@@ -4,13 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import ru.netology.servlets.model.Post;
 import ru.netology.servlets.service.PostService;
-
+import org.springframework.stereotype.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@Controller
 public class PostController {
 
     private static final String APPLICATION_JSON = "application/json";
